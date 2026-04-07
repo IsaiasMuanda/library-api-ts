@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 
-export interface Iuser extends Document {
+export interface IUser extends Document {
     nome: string;
     email: string;
     password: string;
@@ -11,17 +11,17 @@ export interface Iuser extends Document {
     updatedtedAt: Date;
 }
 
-export interface IuserRepository {
-    getAll(): Promise<Iuser[]>;
-    getById(id: string): Promise<Iuser | null>;
+export interface IUserRepository {
+    getAll(): Promise<IUser[]>;
+    getById(id: string): Promise<IUser | null>;
     update(id: string, user:
-    Partial<Iuser>): Promise<Iuser | null>;
+    Partial<IUser>): Promise<IUser | null>;
     delete(id: string): Promise<void>;
 }
 
 export interface IUserService {
-    getAllUsers(): Promise<Iuser[]>;
-    getUserById(id: string): Promise<Iuser | null>;
-    updateUser(id: string, user: Partial<Iuser>): Promise<Iuser | null>;
+    getAllUsers(): Promise<IUser[]>;
+    getUserById(id: string): Promise<IUser | null>;
+    updateUser(id: string, user: Partial<IUser>): Promise<IUser | null>;
     deleteUser(id: string): Promise<void>;
 }
