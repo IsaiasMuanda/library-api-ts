@@ -1,4 +1,5 @@
 import { Document } from "mongoose";
+import type { UpdateUserDTO } from "./dto/updateUser.dto.ts";
 
 export interface IUser extends Document {
     nome: string;
@@ -22,6 +23,6 @@ export interface IUserRepository {
 export interface IUserService {
     getAllUsers(): Promise<IUser[]>;
     getUserById(id: string): Promise<IUser | null>;
-    updateUser(id: string, user: Partial<IUser>): Promise<IUser | null>;
+    updateUser(id: string, user: UpdateUserDTO): Promise<IUser | null>;
     deleteUser(id: string): Promise<void>;
 }

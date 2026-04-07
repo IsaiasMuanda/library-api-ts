@@ -1,16 +1,17 @@
 import { inject, injectable } from "inversify";
-import type { Iuser, IuserRepository, IUserService } from "./user.interface.ts";
+import type { IUser, IUserRepository, IUserService } from "./user.interface.ts";
 import { TYPES } from "../../config/container.ts";
+import type { UpdateUserDTO } from "./dto/updateUser.dto.ts";
 
 @injectable()
 export class UserService implements IUserService {
-    constructor(@inject(TYPES.IUserRepository) private userRepository: IuserRepository) { }
+    constructor(@inject(TYPES.IUserRepository) private userRepository: IUserRepository) { }
 
-    async getAllUsers(): Promise<Iuser[]> {
+    async getAllUsers(): Promise<IUser[]> {
         return this.userRepository.getAll();
     }
 
-    async getUserById(id: string): Promise<Iuser | null> {
+    async getUserById(id: string): Promise<IUser | null> {
         const user = await this.userRepository.getById(id);
 
         if (!user) throw new Error("Usuário não encontrado");
@@ -18,12 +19,12 @@ export class UserService implements IUserService {
         return user;
     }
 
-    async updateUser(id: string, user: Partial<Iuser>): Promise<Iuser | null> {
-        const updateUser = await this.userRepository.update(id, user);
+    async updateUser(id: string, user: UpdateUserDTO): Promise<IUser | null> {
+        const updatedUser = await this.userRepository.update(id, user);
 
-        if (!updateUser) throw new Error("Usuário não encontrado");
+        if (!updatedUser) throw new Error("Usuário não encontrado");
 
-        return updateUser;
+        return updatedUser;
     }
 
     async deleteUser(id: string): Promise<void> {
