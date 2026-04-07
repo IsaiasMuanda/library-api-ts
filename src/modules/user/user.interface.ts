@@ -1,22 +1,22 @@
 import { Document } from "mongoose";
 import type { UpdateUserDTO } from "./dto/updateUser.dto.ts";
 
-export interface IUser extends Document {
+export interface IUser {
     nome: string;
     email: string;
     password: string;
     role: "admin" | "user";
-    endereco: string;
+    endereco?: string;
     telefone: string;
     createdAt: Date;
-    updatedtedAt: Date;
+    updatedAt: Date;
 }
 
 export interface IUserRepository {
     getAll(): Promise<IUser[]>;
     getById(id: string): Promise<IUser | null>;
     update(id: string, user:
-    Partial<IUser>): Promise<IUser | null>;
+        Partial<IUser>): Promise<IUser | null>;
     delete(id: string): Promise<void>;
 }
 

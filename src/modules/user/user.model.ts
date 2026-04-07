@@ -1,49 +1,49 @@
-import { Schema, Model, model } from "mongoose";
-import type { Iuser } from "./user.interface.ts";
+import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
+import type { IUser } from "./user.interface.ts";
 
-const UserSchema = new Schema<Iuser>({
-    nome: {
-        type: String,
-        required: true,
-        trim: true
+const UserSchema = new Schema<IUser>(
+    {
+        nome: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        email: {
+            type: String,
+            required: true,
+            trim: true,
+            unique: true,
+            lowercase: true
+        },
+        password: {
+            type: String,
+            required: true,
+            minlength: [6, "A senha deve ter pelo menos 6 caracteres"]
+        },
+        role: {
+            type: String,
+            enum: ["admin", "user"],
+            default: "user",
+        },
+        endereco: {
+            type: String,
+            trim: true
+        },
+        telefone: {
+            type: String,
+            required: true,
+            trim: true
+        },
     },
-    email: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true,
-        lowercase: true
-    },
-    password: {
-        type: String,
-        required: true,
-        minLength: [6, "A senha deve ter pelo menos 6 caracteres"]
-    },
-    role: {
-        type: String,
-        enum: ["admin", "user"],
-        default: "user",
-    },
-    endereco: {
-        type: String,
-        trim: true
-    },
-    telefone: {
-        type: String,
-        required: true,
-        trim: true
-    },
-}, { timestamps: true });
+    { timestamps: true }
+);
 
 UserSchema.pre("save", async function () {
-    const user = this as Iuser;
-
-    if (!user.isModified("password")) return;
+    if (!this.isModified("password")) return;
 
     const SALT = 10;
-    user.password = await bcrypt.hash(this.password, SALT);
+    this.password = await bcrypt.hash(this.password, SALT);
 });
 
-export const UserModel: Model<Iuser> = model<Iuser>("User", UserSchema);
-
+export const UserModel = model<IUser>("User", UserSchema);
