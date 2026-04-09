@@ -28,6 +28,18 @@ export class UserController {
         }
     }
 
+    async deleteUser(req: Request, res: Response): Promise<void> {
+        try {
+            const id = req.params.id as string;
+
+            await this.userService.deleteUser(id);
+            res.status(204).send();
+
+        } catch (error: any) {
+            res.status(404).json({ message: error.message });
+        }
+    }
+
     async updateUser(req: Request, res: Response): Promise<void> {
         try {
             const userData = updateUserSchema.parse(req.body);
