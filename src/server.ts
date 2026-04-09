@@ -1,27 +1,13 @@
 import express from "express";
-import "dotenv/config"
-import { connectDB } from "./config/database.ts";
-const app = express();
 
-app.use(express.json());
+const app = express();
+const PORT = 3001;
 
 app.get("/", (req, res) => {
     return res.json({ message: "API rodando" });
 })
 
-const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log("Servidor rodando na porta: " + PORT);
+})
 
-async function startServer() {
-    try {
-        await connectDB();
-
-        app.listen(PORT, () => {
-            console.log(`Servidor rodando na porta ${PORT}`);
-        });
-    } catch (error) {
-        console.error("Erro ao iniciar servidor:", error);
-        process.exit(1);
-    }
-}
-
-startServer();
