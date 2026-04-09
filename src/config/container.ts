@@ -2,11 +2,7 @@ import { Container } from "inversify";
 import type { IUserRepository, IUserService } from "../modules/user/user.interface.ts";
 import { UserRepository } from "../modules/user/user.repository.ts";
 import { UserService } from "../modules/user/user.service.ts";
-
-export const TYPES = {
-    IUserRepository: Symbol.for("IUserRepository"),
-    IUserService: Symbol.for("IUserService"),
-};
+import { TYPES } from "./types.ts";
 
 export const container: Container = new Container();
 

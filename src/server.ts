@@ -1,6 +1,7 @@
+import "reflect-metadata";
 import express from "express";
 import "dotenv/config";
-import { connectDB } from "./config/database.ts";
+import { connectDB } from "./config/database.ts"
 import userRoutes from "./modules/user/user.routes.ts";
 
 const app = express();
