@@ -1,4 +1,4 @@
-import { AuthResponse, SafeUser } from "../../config/types.ts";
+import { SafeUser } from "../../config/types.ts";
 import { UserEntity } from "./user.entity.ts";
 import type { CreateUserDTO, UpdateUserDTO } from "./user.schema.ts";
 
@@ -23,7 +23,6 @@ export interface IUserRepository {
 }
 
 export interface IUserService {
-    createUser(user: CreateUserDTO): Promise<AuthResponse>;
     getAllUsers(): Promise<SafeUser[]>;
     getUserById(id: string): Promise<SafeUser | null>;
     updateUser(id: string, user: UpdateUserDTO): Promise<SafeUser | null>;

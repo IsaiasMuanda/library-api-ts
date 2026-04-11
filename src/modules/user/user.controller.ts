@@ -8,17 +8,6 @@ import { TYPES } from "../../config/types.ts";
 export class UserController {
     constructor(@inject(TYPES.IUserService) private userService: IUserService) { }
 
-    async createUser(req: Request, res: Response): Promise<void> {
-        try {
-            const userData = createUserSchema.parse(req.body);
-
-            const user = await this.userService.createUser(userData);
-            res.status(201).json(user);
-        } catch (error: any) {
-            res.status(400).json({ message: error.message });
-        }
-    }
-
     async getAllUsers(req: Request, res: Response): Promise<void> {
         try {
             const users = await this.userService.getAllUsers();
