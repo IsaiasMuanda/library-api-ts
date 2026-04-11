@@ -1,7 +1,19 @@
 import jwt from "jsonwebtoken";
 import type { Request, Response, NextFunction } from "express";
 
-export function authMiddleware(req: Request, res: Response, next: NextFunction) {
+type AuthRequest = Request & {
+    user?: {
+        id: string;
+        role: string;
+    };
+};
+
+type TokenPayload = {
+    id: string;
+    role: string;
+};
+
+export function authMiddleware(req: AuthRequest, res: Response, next: NextFunction) {
 
     const authHeader = req.headers.authorization;
 
@@ -12,9 +24,9 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
     const token = authHeader.split(" ")[1];
 
     try {
-        const decoded = jwt.verify(token!, process.env.JWT_SECRET!);
+        const decoded = jwt.verify(token!, process.env.JWT_SECRET!) as TokenPayload;
 
-        (req as any).user = decoded;
+        req.user = decoded;
 
         next();
 
@@ -23,3 +35,10 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
     }
 }
 
+export function requireAdmin(req: AuthRequest, res: Response, next: NextFunction): void {
+    if (req.user?.role !== "admin") {
+        res.status(403).json({ message: "Acesso restrito a administradores" });
+        return;
+    }
+    next();
+}

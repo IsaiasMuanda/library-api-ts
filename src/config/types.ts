@@ -7,6 +7,8 @@ export const TYPES = {
 };
 
 export type AuthResponse = {
-    user: UserEntity;
+    user: Omit<UserEntity, "password">;
     token: string;
 };
+
+export type SafeUser = Omit<UserEntity, "password">;

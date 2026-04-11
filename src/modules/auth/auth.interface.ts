@@ -1,15 +1,8 @@
-import { IUserRepository } from "../user/user.interface";
-
-export interface IAuth {
-    nome: string;
-    email: string;
-    password: string;
-}
-
-export interface IAuthRepository extends IUserRepository {}
+import { UserEntity } from "../user/user.entity";
+import { LoginDTO } from "./auth.schema";
 
 export interface IAuthService {
-    signUp(user: IAuth): Promise<IAuth | null>;
-    login(email: string, password: string): Promise<IAuth | null>;
+    login(user: LoginDTO): Promise<UserEntity>;
     logout(): Promise<void>;
+    getMe(): Promise<UserEntity>;
 }
