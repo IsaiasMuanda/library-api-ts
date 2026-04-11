@@ -1,12 +1,23 @@
 import { inject, injectable } from "inversify";
 import type { IUserService } from "./user.interface.ts";
 import type { Request, Response } from "express";
-import { updateUserSchema } from "./user.schema.ts";
+import { createUserSchema, updateUserSchema } from "./user.schema.ts";
 import { TYPES } from "../../config/types.ts";
 
 @injectable()
 export class UserController {
     constructor(@inject(TYPES.IUserService) private userService: IUserService) { }
+
+    async createUser(req: Request, res: Response): Promise<void> {
+        try {
+            const userData = createUserSchema.parse(req.body);
+
+            const user = await this.userService.createUser(userData);
+            res.status(201).json(user);
+        } catch (error: any) {
+            res.status(400).json({ message: error.message });
+        }
+    }
 
     async getAllUsers(req: Request, res: Response): Promise<void> {
         try {
