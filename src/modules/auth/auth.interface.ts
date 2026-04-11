@@ -1,8 +1,8 @@
-import { UserEntity } from "../user/user.entity";
+import { AuthResponse, SafeUser } from "../../config/types";
 import { LoginDTO } from "./auth.schema";
 
 export interface IAuthService {
-    login(user: LoginDTO): Promise<UserEntity>;
+    login(user: LoginDTO): Promise<AuthResponse>;
     logout(): Promise<void>;
-    getMe(): Promise<UserEntity>;
+    getMe(id: string): Promise<SafeUser>;
 }

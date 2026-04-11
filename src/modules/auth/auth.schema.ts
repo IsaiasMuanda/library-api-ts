@@ -1,7 +1,7 @@
-import { z } from "zod";
+import { email, z } from "zod";
 
 export const loginSchema = z.object({
-    nome: z.
+    email: z.
         string()
         .email("Email inválido")
         .toLowerCase()
