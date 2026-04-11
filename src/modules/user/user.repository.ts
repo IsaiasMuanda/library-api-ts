@@ -12,11 +12,11 @@ export class UserRepository implements IUserRepository {
     }
 
     async getAll(): Promise<UserEntity[]> {
-        return UserModel.find();
+        return UserModel.find().lean();
     }
 
     async getById(id: string): Promise<UserEntity | null> {
-        return await UserModel.findById(id);
+        return await UserModel.findById(id).lean().lean();
     }
 
     async getByEmail(email: string): Promise<UserEntity | null> {
