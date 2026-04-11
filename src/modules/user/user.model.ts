@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
-import type { IUser } from "./user.interface.ts";
+import { UserEntity } from "./user.entity";
 
-const UserSchema = new Schema<IUser>(
+const UserSchema = new Schema<UserEntity>(
     {
         nome: {
             type: String,
@@ -46,4 +46,4 @@ UserSchema.pre("save", async function () {
     this.password = await bcrypt.hash(this.password, SALT);
 });
 
-export const UserModel = model<IUser>("User", UserSchema);
+export const UserModel = model<UserEntity>("User", UserSchema);
