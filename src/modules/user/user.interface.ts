@@ -1,27 +1,31 @@
-import type { UpdateUserDTO } from "./user.schema.ts";
+import { AuthResponse } from "../../config/types.ts";
+import { UserEntity } from "./user.entity.ts";
+import type { CreateUserDTO, UpdateUserDTO } from "./user.schema.ts";
 
-export interface IUser {
-    nome: string;
-    email: string;
-    password: string;
-    role: "admin" | "user";
-    endereco?: string;
-    telefone: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
+// export interface IUser {
+//     nome: string;
+//     email: string;
+//     password: string;
+//     role: "admin" | "user";
+//     endereco?: string;
+//     telefone: string;
+//     createdAt: Date;
+//     updatedAt: Date;
+// }
 
 export interface IUserRepository {
-    getAll(): Promise<IUser[]>;
-    getById(id: string): Promise<IUser | null>;
-    update(id: string, user:
-        UpdateUserDTO): Promise<IUser | null>;
+    create(user: CreateUserDTO): Promise<UserEntity>;
+    getAll(): Promise<UserEntity[]>;
+    getById(id: string): Promise<UserEntity | null>;
+    getByEmail(email: string): Promise<UserEntity | null>;
+    update(id: string, user: UpdateUserDTO): Promise<UserEntity | null>;
     delete(id: string): Promise<void>;
 }
 
 export interface IUserService {
-    getAllUsers(): Promise<IUser[]>;
-    getUserById(id: string): Promise<IUser | null>;
-    updateUser(id: string, user: UpdateUserDTO): Promise<IUser | null>;
+    createUser(user: CreateUserDTO): Promise<AuthResponse>;
+    getAllUsers(): Promise<UserEntity[]>;
+    getUserById(id: string): Promise<UserEntity | null>;
+    updateUser(id: string, user: UpdateUserDTO): Promise<UserEntity | null>;
     deleteUser(id: string): Promise<void>;
 }
