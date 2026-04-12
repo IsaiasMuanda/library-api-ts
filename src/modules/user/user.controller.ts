@@ -34,7 +34,6 @@ export class UserController {
 
             await this.userService.deleteUser(id);
             res.status(204).send();
-
         } catch (error: any) {
             res.status(404).json({ message: error.message });
         }

@@ -8,7 +8,7 @@ import { UserEntity } from "./user.entity.ts";
 export class UserRepository implements IUserRepository {
 
     async create(user: CreateUserDTO): Promise<UserEntity> {
-        return await UserModel.create(user);
+        return UserModel.create(user).then(doc => doc.toObject());
     }
 
     async getAll(): Promise<UserEntity[]> {
@@ -22,10 +22,10 @@ export class UserRepository implements IUserRepository {
     async getByEmail(email: string): Promise<UserEntity | null> {
         return await UserModel.findOne({
             email: email.toLocaleLowerCase()
-        })
+        }).then(doc => doc?.toObject() || null);
     }
     async update(id: string, user: UpdateUserDTO): Promise<UserEntity | null> {
-        return await UserModel.findByIdAndUpdate(id, user, { new: true })
+        return await UserModel.findByIdAndUpdate(id, user, { new: true }).then(doc => doc?.toObject() || null);
     }
 
     async delete(id: string): Promise<void> {

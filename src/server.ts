@@ -3,6 +3,7 @@ import express from "express";
 import "dotenv/config";
 import { connectDB } from "./config/database.ts"
 import userRoutes from "./modules/user/user.routes.ts";
+import authRoutes from "./modules/auth/auth.routes.ts";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 
 async function startServer() {
     try {
