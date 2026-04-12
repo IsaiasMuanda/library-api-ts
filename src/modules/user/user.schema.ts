@@ -5,7 +5,8 @@ export const createUserSchema = z.object({
     nome: z.string().min(2, "Nome muito curto").max(100, "Nome muito longo"),
     email: z.string().email("Email inválido").toLowerCase(),
     password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
-});
+    telefone: z.string().min(9, "Telefone obrigatório").max(20, "Telefone deve ter 20 caracteres")
+})
 
 export const updateUserSchema = z.object({
     nome: z.string().optional(),

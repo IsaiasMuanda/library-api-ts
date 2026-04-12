@@ -10,7 +10,6 @@ const userRepository = new UserRepository()
 const userService = new UserService(userRepository)
 const userController = new UserController(userService);
 
-router.post("/signup", (req: Request, res: Response) => userController.createUser(req, res));
 router.get("/", authMiddleware, requireAdmin, (req: Request, res: Response) => userController.getAllUsers(req, res));
 router.get("/:id", authMiddleware, requireAdmin, (req: Request, res: Response) => userController.getUserById(req, res));
 router.delete("/:id", authMiddleware, requireAdmin, (req: Request, res: Response) => userController.deleteUser(req, res));

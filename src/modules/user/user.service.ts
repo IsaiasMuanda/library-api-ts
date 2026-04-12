@@ -1,33 +1,13 @@
 import { inject, injectable } from "inversify";
 import type { IUserRepository, IUserService } from "./user.interface.ts";
-import type { CreateUserDTO, UpdateUserDTO } from "./user.schema.ts";
-import { AuthResponse, SafeUser, TYPES } from "../../config/types.ts";
-import { UserEntity } from "./user.entity.ts";
-import jwt from "jsonwebtoken";
-
+import type { UpdateUserDTO } from "./user.schema.ts";
+import { SafeUser, TYPES } from "../../config/types.ts";
 
 @injectable()
 export class UserService implements IUserService {
     constructor(
         @inject(TYPES.IUserRepository) private userRepository: IUserRepository
-    ) {}
-
-    async createUser(user: CreateUserDTO): Promise<AuthResponse> {
-        const existUser = await this.userRepository.getByEmail(user.email);
-
-        if (existUser) throw new Error("Email já cadastrado");
-
-        const createdUser = await this.userRepository.create(user);
-
-        const { password, ...safeUser } = createdUser;
-
-        const token = this.generateToken(createdUser);
-
-        return {
-            user: safeUser,
-            token
-        };
-    }
+    ) { }
 
     async getAllUsers(): Promise<SafeUser[]> {
         const users = await this.userRepository.getAll();
@@ -61,13 +41,5 @@ export class UserService implements IUserService {
         if (!existingUser) throw new Error("Usuário não encontrado");
 
         await this.userRepository.delete(id);
-    }
-
-    private generateToken(user: UserEntity) {
-        return jwt.sign(
-            { id: user._id, role: user.role },
-            process.env.JWT_SECRET!,
-            { expiresIn: "3d" }
-        );
     }
 }
