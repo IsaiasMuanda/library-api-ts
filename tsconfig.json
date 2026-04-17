@@ -3,6 +3,8 @@
     "rootDir": "./src",
     "outDir": "./dist",
 
+    "typeRoots": ["./node_modules/@types", "./src/shared"],
+
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "experimentalDecorators": true,

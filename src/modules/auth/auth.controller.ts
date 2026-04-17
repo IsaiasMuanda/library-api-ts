@@ -1,9 +1,9 @@
 import { inject, injectable } from "inversify";
 import { IAuthService } from "./auth.interface";
-import { AuthRequest, TYPES } from "../../config/types";
 import { Request, Response } from "express";
 import { createUserSchema } from "../user/user.schema";
 import { loginSchema } from "./auth.schema";
+import { TYPES } from "../../shared/types/TYPES";
 
 @injectable()
 export class AuthController {
@@ -30,7 +30,7 @@ export class AuthController {
     }
 
 
-    async getMe(req: AuthRequest, res: Response) {
+    async getMe(req: Request, res: Response) {
         try {
             if (!req.user) {
                 return res.status(401).json({ message: "Não autorizado" });

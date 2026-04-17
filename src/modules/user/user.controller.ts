@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import type { IUserService } from "./user.interface.ts";
 import type { Request, Response } from "express";
 import { updateUserSchema } from "./user.schema.ts";
-import { TYPES } from "../../config/types.ts";
+import { TYPES } from "../../shared/types/TYPES.ts";
 
 @injectable()
 export class UserController {

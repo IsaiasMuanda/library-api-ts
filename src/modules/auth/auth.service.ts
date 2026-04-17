@@ -1,12 +1,13 @@
 import { inject, injectable } from "inversify";
 import { IAuthService } from "./auth.interface";
-import { AuthResponse, TYPES } from "../../config/types";
+import { AuthResponse } from "../../config/types";
 import { IUserRepository } from "../user/user.interface";
 import { LoginDTO } from "./auth.schema";
 import { CreateUserDTO } from "../user/user.schema";
 import jwt from "jsonwebtoken";
 import { UserEntity } from "../user/user.entity";
 import bcrypt from "bcryptjs";
+import { TYPES } from "../../shared/types/TYPES";
 
 @injectable()
 export class AuthService implements IAuthService {
