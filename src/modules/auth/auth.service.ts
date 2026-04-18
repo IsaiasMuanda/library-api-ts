@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken";
 import { UserEntity } from "../user/user.entity";
 import bcrypt from "bcryptjs";
 import { TYPES } from "../../shared/types/TYPES";
+import { AppError } from "../../shared/errors/AppError";
 
 @injectable()
 export class AuthService implements IAuthService {
@@ -16,7 +17,8 @@ export class AuthService implements IAuthService {
     async signUp(user: CreateUserDTO): Promise<AuthResponse> {
         const existingUser = await this.userRepository.getByEmail(user.email);
 
-        if (existingUser) throw new Error("Email já se encontra em uso");
+        if (existingUser) throw new AppError("Email já se encontra em uso", 409);
+
 
         const newUser = await this.userRepository.create(user);
         const token = this.generateToken(newUser);
@@ -40,11 +42,11 @@ export class AuthService implements IAuthService {
     async login(user: LoginDTO): Promise<AuthResponse> {
         const existingUser = await this.userRepository.getByEmail(user.email);
 
-        if (!existingUser) throw new Error("Email ou palavra-passe inválidos");
+        if (!existingUser) throw new AppError("Email ou palavra-passe inválidos", 401);
 
         const correctPassword = await bcrypt.compare(user.password, existingUser.password);
 
-        if (!correctPassword) throw new Error("Email ou palavra-passe inválidos");
+        if (!correctPassword) throw new AppError("Email ou palavra-passe inválidos", 401);
 
         const token = this.generateToken(existingUser);
 
@@ -60,7 +62,7 @@ export class AuthService implements IAuthService {
         const user = await this.userRepository.getById(userId);
 
         if (!user) {
-            throw new Error("Usuário não encontrado");
+           throw new AppError("Usuário não encontrado", 404);
         }
 
         const { password, ...safeUser } = user;
