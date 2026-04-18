@@ -1,46 +1,45 @@
 import { inject, injectable } from "inversify";
 import { IAuthService } from "./auth.interface";
-import { Request, Response } from "express";
-import { createUserSchema } from "../user/user.schema";
-import { loginSchema } from "./auth.schema";
+import { NextFunction, Request, Response } from "express";
 import { TYPES } from "../../shared/types/TYPES";
 
 @injectable()
 export class AuthController {
     constructor(@inject(TYPES.IAuthService) private authService: IAuthService) { }
 
-    async signUp(req: Request, res: Response) {
+    async signUp(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const userData = createUserSchema.parse(req.body);
+            const userData = req.body;
             const user = await this.authService.signUp(userData);
-            res.status(201).json(user);
-        } catch (error: any) {
-            res.status(400).json({ message: error.message });
+            res.status(201).json({ success: true, data: user });
+        } catch (error) {
+            next(error);
         }
     }
 
-    async login(req: Request, res: Response) {
+    async login(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const userData = loginSchema.parse(req.body);
+            const userData = req.body;
             const user = await this.authService.login(userData);
-            res.json(user);
-        } catch (error: any) {
-            res.status(400).json({ message: error.message });
+            res.json({ success: true, data: user });
+        } catch (error) {
+            next(error);
         }
     }
 
 
-    async getMe(req: Request, res: Response) {
+    async getMe(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             if (!req.user) {
-                return res.status(401).json({ message: "Não autorizado" });
+                res.status(401).json({ message: "Não autorizado" });
+                return;
             }
 
             const user = await this.authService.getMe(req.user.id);
 
-            res.json(user);
-        } catch (error: any) {
-            res.status(400).json({ message: error.message });
+            res.json({ success: true, data: user });
+        } catch (error) {
+            next(error);
         }
     }
 }

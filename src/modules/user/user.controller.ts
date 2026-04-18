@@ -1,47 +1,46 @@
 import { inject, injectable } from "inversify";
 import type { IUserService } from "./user.interface.ts";
-import type { Request, Response } from "express";
-import { updateUserSchema } from "./user.schema.ts";
+import type { NextFunction, Request, Response } from "express";
 import { TYPES } from "../../shared/types/TYPES.ts";
 
 @injectable()
 export class UserController {
     constructor(@inject(TYPES.IUserService) private userService: IUserService) { }
 
-    async getAllUsers(req: Request, res: Response): Promise<void> {
+    async getAllUsers(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const users = await this.userService.getAllUsers();
             res.json(users);
         } catch (error: any) {
-            res.status(500).json({ message: error.message });
+            next(error);
         }
     }
 
-    async getUserById(req: Request, res: Response): Promise<void> {
+    async getUserById(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const id = req.params.id as string;
 
             const user = await this.userService.getUserById(id);
             res.json(user);
         } catch (error: any) {
-            res.status(404).json({ message: error.message });
+            next(error);
         }
     }
 
-    async deleteUser(req: Request, res: Response): Promise<void> {
+    async deleteUser(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const id = req.params.id as string;
 
             await this.userService.deleteUser(id);
             res.status(204).send();
         } catch (error: any) {
-            res.status(404).json({ message: error.message });
+            next(error);
         }
     }
 
-    async updateUser(req: Request, res: Response): Promise<void> {
+    async updateUser(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const userData = updateUserSchema.parse(req.body);
+            const userData = req.body;
             const id = req.params.id as string;
 
             const user = await this.userService.updateUser(
@@ -50,8 +49,8 @@ export class UserController {
             );
 
             res.status(200).json(user);
-        } catch (error: any) {
-            res.status(400).json({ message: error.message });
+        } catch (error) {
+            next(error);
         }
     }
 }
