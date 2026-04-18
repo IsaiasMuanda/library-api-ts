@@ -1,18 +1,18 @@
-import { Router, type Request, type Response } from "express";
+import { Router } from "express";
 import { UserController } from "./user.controller.ts";
-import { UserService } from "./user.service.ts";
-import { UserRepository } from "./user.repository.ts";
 import { authMiddleware, requireAdmin } from "../../middlewares/auth.middleware.ts";
+import { container } from "../../config/container.ts";
+import { TYPES } from "../../shared/types/TYPES.ts";
+import { validate } from "../../middlewares/validate.middleware.ts";
+import { updateUserSchema } from "./user.schema.ts";
 
 const router = Router();
 
-const userRepository = new UserRepository()
-const userService = new UserService(userRepository)
-const userController = new UserController(userService);
+const userController = container.get<UserController>(TYPES.UserController);
 
-router.get("/", authMiddleware, requireAdmin, (req: Request, res: Response) => userController.getAllUsers(req, res));
-router.get("/:id", authMiddleware, requireAdmin, (req: Request, res: Response) => userController.getUserById(req, res));
-router.delete("/:id", authMiddleware, requireAdmin, (req: Request, res: Response) => userController.deleteUser(req, res));
-router.put("/:id", authMiddleware, requireAdmin, (req: Request, res: Response) => userController.updateUser(req, res));
+router.get("/", authMiddleware, requireAdmin, userController.getAllUsers.bind(userController));
+router.get("/:id", authMiddleware, requireAdmin, userController.getUserById.bind(userController));
+router.delete("/:id", authMiddleware, requireAdmin, userController.deleteUser.bind(userController));
+router.put("/:id", authMiddleware, requireAdmin, validate(updateUserSchema), userController.updateUser.bind(userController));
 
 export default router;
