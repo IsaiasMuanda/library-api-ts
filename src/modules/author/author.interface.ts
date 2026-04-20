@@ -21,7 +21,7 @@ export interface IAuthorService {
     getAll(opts: ReturnType<typeof buildPaginationOptions>): Promise<{ items: AuthorEntity[]; meta: PaginationMeta }>;
     getById(id: string): Promise<AuthorEntity | null>
     createAuthor(author: CreateAuthorDTO): Promise<AuthorEntity>
-    updateAuthor(id: string, author: UpdateAuthorDTO): Promise<AuthorEntity | null>
+    updateAuthor(id: string, author: UpdateAuthorDTO): Promise<AuthorEntity>
     deleteAuthor(id: string): Promise<void>
 }
 
