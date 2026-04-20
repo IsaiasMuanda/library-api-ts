@@ -5,4 +5,6 @@ export const TYPES = {
 
     IAuthService: Symbol.for("IAuthService"),
     AuthController: Symbol.for("AuthController"),
+
+    AuthorRepository: Symbol.for("AuthorRepository")
 };
