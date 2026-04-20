@@ -56,7 +56,7 @@ export class AuthorController {
         try {
             const id = req.params.id as string;
             await this.authorService.deleteAuthor(id);
-            return res.json({ success: true, message: "Author deleted successfully" });
+            return res.json({ success: true, message: "Autor deletado com successo" });
         } catch (error) {
             next(error);
         }
