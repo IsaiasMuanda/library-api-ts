@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
-import { UserEntity } from "./user.entity";
+import { UserEntity } from "./user.interface";
 
 const UserSchema = new Schema<UserEntity>(
     {

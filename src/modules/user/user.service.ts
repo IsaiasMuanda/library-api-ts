@@ -4,6 +4,7 @@ import type { UpdateUserDTO } from "./user.schema.ts";
 import { SafeUser } from "../../config/types.ts";
 import { TYPES } from "../../shared/types/TYPES.ts";
 import { AppError } from "../../shared/errors/AppError.ts";
+import { buildPaginationMeta, buildPaginationOptions, PaginationMeta } from "../../shared/utils/pagination.ts";
 
 @injectable()
 export class UserService implements IUserService {
@@ -11,14 +12,16 @@ export class UserService implements IUserService {
         @inject(TYPES.IUserRepository) private userRepository: IUserRepository
     ) { }
 
-    async getAllUsers(): Promise<SafeUser[]> {
-        const users = await this.userRepository.getAll();
+    async getAllUsers(opts: ReturnType<typeof buildPaginationOptions>): Promise<{ items: SafeUser[]; meta: PaginationMeta; }> {
+        const { items, total } = await this.userRepository.findAll(opts);
+        const meta = buildPaginationMeta(total, opts.page, opts.limit);
 
-        return users.map(({ password, ...user }) => user);
+        const safeUsers = items.map(({ password, ...safeUser }) => safeUser);
+        return { items: safeUsers, meta };
     }
 
     async getUserById(id: string): Promise<SafeUser | null> {
-        const user = await this.userRepository.getById(id);
+        const user = await this.userRepository.findById(id);
 
         if (!user) throw new AppError("Usuário não encontrado", 404);
 
@@ -38,7 +41,7 @@ export class UserService implements IUserService {
     }
 
     async deleteUser(id: string): Promise<void> {
-        const existingUser = await this.userRepository.getById(id);
+        const existingUser = await this.userRepository.findById(id);
 
         if (!existingUser) throw new AppError("Usuário não encontrado", 404)
 

@@ -1,11 +1,10 @@
 import { inject, injectable } from "inversify";
 import { IAuthService } from "./auth.interface";
 import { AuthResponse } from "../../config/types";
-import { IUserRepository } from "../user/user.interface";
+import { IUserRepository, UserEntity } from "../user/user.interface";
 import { LoginDTO } from "./auth.schema";
 import { CreateUserDTO } from "../user/user.schema";
 import jwt from "jsonwebtoken";
-import { UserEntity } from "../user/user.entity";
 import bcrypt from "bcryptjs";
 import { TYPES } from "../../shared/types/TYPES";
 import { AppError } from "../../shared/errors/AppError";
@@ -15,7 +14,7 @@ export class AuthService implements IAuthService {
     constructor(@inject(TYPES.IUserRepository) private userRepository: IUserRepository) { }
 
     async signUp(user: CreateUserDTO): Promise<AuthResponse> {
-        const existingUser = await this.userRepository.getByEmail(user.email);
+        const existingUser = await this.userRepository.findByEmail(user.email);
 
         if (existingUser) throw new AppError("Email já se encontra em uso", 409);
 
@@ -40,7 +39,7 @@ export class AuthService implements IAuthService {
     }
 
     async login(user: LoginDTO): Promise<AuthResponse> {
-        const existingUser = await this.userRepository.getByEmail(user.email);
+        const existingUser = await this.userRepository.findByEmail(user.email);
 
         if (!existingUser) throw new AppError("Email ou palavra-passe inválidos", 401);
 
@@ -59,10 +58,10 @@ export class AuthService implements IAuthService {
     }
 
     async getMe(userId: string) {
-        const user = await this.userRepository.getById(userId);
+        const user = await this.userRepository.findById(userId);
 
         if (!user) {
-           throw new AppError("Usuário não encontrado", 404);
+            throw new AppError("Usuário não encontrado", 404);
         }
 
         const { password, ...safeUser } = user;

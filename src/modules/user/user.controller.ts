@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify";
 import type { IUserService } from "./user.interface.ts";
 import type { NextFunction, Request, Response } from "express";
 import { TYPES } from "../../shared/types/TYPES.ts";
+import { buildPaginationOptions } from "../../shared/utils/pagination.ts";
 
 @injectable()
 export class UserController {
@@ -9,8 +10,10 @@ export class UserController {
 
     async getAllUsers(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const users = await this.userService.getAllUsers();
-            res.json(users);
+            const opts = buildPaginationOptions(req.query);
+            const { items, meta } = await this.userService.getAllUsers(opts);
+
+            res.json({ success: true, data: items, meta });
         } catch (error: any) {
             next(error);
         }
@@ -21,7 +24,7 @@ export class UserController {
             const id = req.params.id as string;
 
             const user = await this.userService.getUserById(id);
-            res.json(user);
+            res.json({ success: true, data: user });
         } catch (error: any) {
             next(error);
         }
@@ -48,7 +51,7 @@ export class UserController {
                 userData
             );
 
-            res.status(200).json(user);
+            res.json({ success: true, data: user });
         } catch (error) {
             next(error);
         }

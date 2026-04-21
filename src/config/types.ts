@@ -1,6 +1,4 @@
-import { UserEntity } from "../modules/user/user.entity";
-
-//Types para IoC
+import { UserEntity } from "../modules/user/user.interface";
 
 export type AuthResponse = {
     user: Omit<UserEntity, "password">;

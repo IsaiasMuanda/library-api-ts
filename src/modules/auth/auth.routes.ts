@@ -6,9 +6,11 @@ import { validate } from "../../middlewares/validate.middleware";
 import { createUserSchema } from "../user/user.schema";
 import { loginSchema } from "./auth.schema";
 import { TYPES } from "../../shared/types/TYPES";
+import { IAuthService } from "./auth.interface";
 
 const router = Router();
-const authController = container.get<AuthController>(TYPES.AuthController);
+const authService = container.get<IAuthService>(TYPES.IAuthService)
+const authController = new AuthController(authService);
 
 router.post("/signup", validate(createUserSchema), authController.signUp.bind(authController));
 router.post("/login", validate(loginSchema), authController.login.bind(authController));
