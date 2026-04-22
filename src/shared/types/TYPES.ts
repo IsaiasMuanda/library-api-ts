@@ -12,4 +12,5 @@ export const TYPES = {
 
     //Book
     IBookRepository: Symbol.for("IBookRepository"),
+    IBookService: Symbol.for("IBookService"),
 };
