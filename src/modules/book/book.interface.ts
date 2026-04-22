@@ -28,16 +28,20 @@ export interface BookEntity {
     disponivelParaAluguer: number;
 }
 
+export interface CreateBookData extends CreateBookDTO {
+    disponivelParaAluguer: number;
+}
+
 export interface IBookRepository {
     findAll(filters: BookFilters, opts: ReturnType<typeof buildPaginationOptions>): Promise<{ items: BookEntity[], total: number }>
     findById(id: string): Promise<BookEntity | null>;
-    create(book: CreateBookDTO): Promise<BookEntity>;
+    create(book: CreateBookData): Promise<BookEntity>;
     update(id: string, book: UpdateBookDTO): Promise<BookEntity | null>;
     delete(id: string): Promise<void>;
 }
 
 export interface IBookService {
-    findAll(filters: BookFilters, opts: ReturnType<typeof buildPaginationOptions>): Promise<{ items: BookEntity[], meta: PaginationMeta }>
+    getAll(filters: BookFilters, opts: ReturnType<typeof buildPaginationOptions>): Promise<{ items: BookEntity[], meta: PaginationMeta }>
     getById(id: string): Promise<BookEntity | null>;
     createBook(book: CreateBookDTO): Promise<BookEntity>;
     updateBook(id: string, book: UpdateBookDTO): Promise<BookEntity | null>;
