@@ -1,21 +1,5 @@
 import mongoose, { model, ObjectId } from "mongoose";
-
-
-export interface BookEntity {
-    _id: ObjectId;
-    titulo: string;
-    isbn: string;
-    author: ObjectId;
-    genero: string;
-    anoPublicacao: number;
-    descricao: string;
-    fotoCapa: string;
-    precoCompra: number;
-    precoAluguer: number;
-    stock: number;
-    totalParaAluguer: number;
-    disponivelParaAluguer: number;
-}
+import { BookEntity } from "./book.interface";
 
 const BookSchema = new mongoose.Schema<BookEntity>({
     titulo: {
@@ -31,7 +15,7 @@ const BookSchema = new mongoose.Schema<BookEntity>({
         minLength: [10, "ISBN deve ter pelo menos 10 caracteres"],
         maxLength: [13, "ISBN deve ter no máximo 13 caracteres"]
     },
-    author: {
+    autor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Author",
         required: true,
