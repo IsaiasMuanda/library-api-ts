@@ -9,6 +9,8 @@ import { AuthorRepository } from "../modules/author/author.repository.ts";
 import { IAuthorRepository } from "../modules/author/author.interface.ts";
 import { IAuthorService } from "../modules/author/author.interface.ts";
 import { AuthorService } from "../modules/author/author.service.ts";
+import { IBookRepository } from "../modules/book/book.interface.ts";
+import { BookRepository } from "../modules/book/book.repository.ts";
 
 export const container: Container = new Container();
 
@@ -22,3 +24,6 @@ container.bind<IAuthService>(TYPES.IAuthService).to(AuthService).inSingletonScop
 //Author
 container.bind<IAuthorRepository>(TYPES.IAuthorRepository).to(AuthorRepository).inSingletonScope();
 container.bind<IAuthorService>(TYPES.IAuthorService).to(AuthorService).inSingletonScope();
+
+//Book
+container.bind<IBookRepository>(TYPES.IBookRepository).to(BookRepository).inSingletonScope();
