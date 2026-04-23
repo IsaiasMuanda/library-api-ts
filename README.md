@@ -1,4 +1,4 @@
-# Bookstore API 🚧
+# Bookstore API 
 
 REST API for a bookstore with purchase and rental system.
 
