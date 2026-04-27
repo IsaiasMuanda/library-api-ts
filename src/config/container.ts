@@ -12,6 +12,8 @@ import { AuthorService } from "../modules/author/author.service.ts";
 import { IBookRepository, IBookService } from "../modules/book/book.interface.ts";
 import { BookRepository } from "../modules/book/book.repository.ts";
 import { BookService } from "../modules/book/book.service.ts";
+import { ICartRepository } from "../modules/cart/cart.interface.ts";
+import { CartRepository } from "../modules/cart/cart.repository.ts";
 
 export const container: Container = new Container();
 
@@ -29,3 +31,6 @@ container.bind<IAuthorService>(TYPES.IAuthorService).to(AuthorService).inSinglet
 //Book
 container.bind<IBookRepository>(TYPES.IBookRepository).to(BookRepository).inSingletonScope();
 container.bind<IBookService>(TYPES.IBookService).to(BookService).inSingletonScope();
+
+//Cart
+container.bind<ICartRepository>(TYPES.ICartRepository).to(CartRepository).inSingletonScope();

@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { AddToCartDTO } from "./cart.schema";
+import { AddToCartDTO, UpdateQuantityDTO } from "./cart.schema";
 
 export interface CartEntity {
     _id: Types.ObjectId;
@@ -28,7 +28,7 @@ export interface ICartRepository {
 export interface ICartService {
     getByUser(userId: string): Promise<CartEntity | null>,
     addItem(userId: string, item: AddToCartDTO): Promise<CartEntity>,
-    updateItem(userId: string, bookId: string, type: "compra" | "aluguer", quantity: number): Promise<CartEntity>,
+    updateItem(userId: string, bookId: string, dto: UpdateQuantityDTO): Promise<CartEntity>
     removeItem(userId: string, bookId: string, type: "compra" | "aluguer"): Promise<CartEntity>,
     clear(userId: string): Promise<void>,
     checkout(userId: string): Promise<unknown>
