@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { AddToCartDTO, UpdateQuantityDTO } from "./cart.schema";
+import { BookEntity } from "../book/book.interface";
 
 export interface CartEntity {
     _id: Types.ObjectId;
@@ -8,11 +9,12 @@ export interface CartEntity {
 }
 
 export interface CartItemEntity {
-    book: Types.ObjectId,
-    type: "compra" | "aluguer",
-    quantidade: number,
-    precoUnitario: number,
+    book: Types.ObjectId | BookEntity;
+    type: "compra" | "aluguer";
+    quantidade: number;
+    precoUnitario: number;
 }
+
 export interface CartItemData extends AddToCartDTO {
     precoUnitario: number;
 }

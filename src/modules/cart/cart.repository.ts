@@ -7,9 +7,7 @@ import { AppError } from "../../shared/errors/AppError";
 export class CartRepository implements ICartRepository {
 
     async findByUser(userId: string): Promise<CartEntity | null> {
-        return CartModel.findOne({
-            user: userId
-        })
+        return CartModel.findOne({ user: userId }).populate("items.book", "titulo fotoCapa");
     }
 
     async addItem(userId: string, item: CartItemData): Promise<CartEntity> {
