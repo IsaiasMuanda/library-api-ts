@@ -15,5 +15,6 @@ export const TYPES = {
     IBookService: Symbol.for("IBookService"),
 
     //Cart
-    ICartRepository: Symbol.for("ICartRepository")
+    ICartRepository: Symbol.for("ICartRepository"),
+    ICartService: Symbol.for("ICartService")
 };
