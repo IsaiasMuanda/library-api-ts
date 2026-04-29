@@ -33,7 +33,7 @@ export class CartController {
     async updateCart(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const userId = req.user?.id as string;
-            const bookId = req.params.id as string;
+            const bookId = req.params.bookId as string;
             const item = req.body;
 
             const cart = await this.cartService.updateItem(userId, bookId, item);
@@ -47,7 +47,7 @@ export class CartController {
     async removeToCart(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const userId = req.user?.id as string;
-            const bookId = req.params.id as string;
+            const bookId = req.params.bookId as string;
             const type = req.query.type as "compra" | "aluguer";
 
             const cart = await this.cartService.removeItem(userId, bookId, type)
