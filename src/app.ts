@@ -8,10 +8,13 @@ import bookRoutes from "./modules/book/book.routes.ts";
 import cartRoutes from "./modules/cart/cart.routes.ts"
 import reservationRoutes from "./modules/reservation/reservation.routes.ts"
 import { errorMiddleware } from "./middlewares/error.middleware.ts";
+import { globalRateLimiter } from "./middlewares/rateLimit.middleware.ts";
 
 const app = express();
 
 app.use(express.json());
+app.use(globalRateLimiter); 
+
 
 app.get("/", (req, res) => {
     return res.json({ message: "API rodando" });
