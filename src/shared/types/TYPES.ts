@@ -16,5 +16,9 @@ export const TYPES = {
 
     //Cart
     ICartRepository: Symbol.for("ICartRepository"),
-    ICartService: Symbol.for("ICartService")
+    ICartService: Symbol.for("ICartService"),
+
+    //Reservation
+    IReservationRepository: Symbol.for("IReservationRepository"),
+    IReservationService: Symbol.for("IReservationService"),
 };

@@ -15,6 +15,9 @@ import { BookService } from "../modules/book/book.service.ts";
 import { ICartRepository, ICartService } from "../modules/cart/cart.interface.ts";
 import { CartRepository } from "../modules/cart/cart.repository.ts";
 import { CartService } from "../modules/cart/cart.service.ts";
+import { IReservationRepository, IReservationService } from "../modules/reservation/reservation.interface.ts";
+import { ReservationRepository } from "../modules/reservation/reservation.repository.ts";
+import { ReservationService } from "../modules/reservation/reservation.service.ts";
 
 export const container: Container = new Container();
 
@@ -36,3 +39,7 @@ container.bind<IBookService>(TYPES.IBookService).to(BookService).inSingletonScop
 //Cart
 container.bind<ICartRepository>(TYPES.ICartRepository).to(CartRepository).inSingletonScope();
 container.bind<ICartService>(TYPES.ICartService).to(CartService).inSingletonScope()
+
+//Reservation
+container.bind<IReservationRepository>(TYPES.IReservationRepository).to(ReservationRepository).inSingletonScope();
+container.bind<IReservationService>(TYPES.IReservationService).to(ReservationService).inSingletonScope();

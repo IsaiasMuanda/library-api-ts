@@ -54,4 +54,8 @@ export class BookRepository implements IBookRepository {
     async delete(id: string): Promise<void> {
         await BookModel.findByIdAndDelete(id);
     }
+
+    async updateStock(id: string, field: "stock" | "disponivelParaAluguer", amount: number): Promise<void> {
+        await BookModel.findByIdAndUpdate(id, { $inc: { [field]: amount } });
+    }
 }

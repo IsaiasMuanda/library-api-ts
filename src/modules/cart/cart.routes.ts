@@ -6,11 +6,13 @@ import { TYPES } from "../../shared/types/TYPES";
 import { ICartService } from "./cart.interface";
 import { validate } from "../../middlewares/validate.middleware";
 import { AddToCartSchema, UpdateQuantitySchema } from "./cart.schema";
+import { IReservationService } from "../reservation/reservation.interface";
 
 const router = Router();
 
 const cartService = container.get<ICartService>(TYPES.ICartService);
-const cartController = new CartController(cartService);
+const reservationService = container.get<IReservationService>(TYPES.IReservationService);
+const cartController = new CartController(cartService, reservationService);
 
 router.get("/", authMiddleware, cartController.getCart.bind(cartController));
 router.post("/items", authMiddleware, validate(AddToCartSchema), cartController.addToCart.bind(cartController));
