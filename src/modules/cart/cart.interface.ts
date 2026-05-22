@@ -33,6 +33,5 @@ export interface ICartService {
     updateItem(userId: string, bookId: string, dto: UpdateQuantityDTO): Promise<CartEntity>
     removeItem(userId: string, bookId: string, type: "compra" | "aluguer"): Promise<CartEntity>,
     clear(userId: string): Promise<void>,
-    checkout(userId: string): Promise<unknown>
 }
 

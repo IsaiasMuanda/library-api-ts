@@ -1,0 +1,2 @@
+export const RESERVATION_EXPIRE_HOURS = 48;
+export const RENTAL_DAYS_LIMIT = 14;

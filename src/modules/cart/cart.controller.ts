@@ -2,10 +2,14 @@ import { inject, injectable } from "inversify";
 import { TYPES } from "../../shared/types/TYPES";
 import { ICartService } from "./cart.interface";
 import { NextFunction, Request, Response } from "express";
+import { IReservationService } from "../reservation/reservation.interface";
 
 @injectable()
 export class CartController {
-    constructor(@inject(TYPES.ICartService) private cartService: ICartService) { }
+    constructor(
+        @inject(TYPES.ICartService) private cartService: ICartService,
+        @inject(TYPES.IReservationService) private reservationService: IReservationService
+    ) { }
 
     async getCart(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
@@ -71,7 +75,7 @@ export class CartController {
     async checkOut(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const userId = req.user?.id as string;
-            const result = await this.cartService.checkout(userId);
+            const result = await this.reservationService.checkout(userId);
             res.json({ success: true, data: result });
         } catch (error) {
             next(error);

@@ -68,8 +68,4 @@ export class CartService implements ICartService {
         await this.cartRepository.clear(userId);
     }
 
-    //TODO implementar quando o módulo Reservation estiver pronto
-    async checkout(userId: string): Promise<unknown> {
-        throw new AppError("Não implementado", 501);
-    }
 }

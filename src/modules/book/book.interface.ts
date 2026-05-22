@@ -38,6 +38,7 @@ export interface IBookRepository {
     create(book: CreateBookData): Promise<BookEntity>;
     update(id: string, book: UpdateBookDTO): Promise<BookEntity | null>;
     delete(id: string): Promise<void>;
+    updateStock(id: string, field: "stock" | "disponivelParaAluguer", amount: number): Promise<void>
 }
 
 export interface IBookService {
